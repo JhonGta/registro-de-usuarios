@@ -280,9 +280,7 @@ Tu proyecto no solo cumple con todos los requisitos solicitados, sino que va má
 - **Slider interactivo** para calificación y dropdown de categorías
 - **Botones de acción** con estados hover y diseño atractivo
 
-```
-[https://i.imgur.com/EoDd4xK.png]
-```
+![Formulario de Registro con Validación](https://i.imgur.com/EoDd4xK.png)
 
 ### ✅ 2. Página de Confirmación de Registro Exitoso
 
@@ -294,9 +292,7 @@ Tu proyecto no solo cumple con todos los requisitos solicitados, sino que va má
 - **Diseño centrado y limpio** que confirma al usuario que el proceso fue completado
 - **Interfaz responsive** que se adapta a diferentes tamaños de pantalla
 
-```
-[https://i.imgur.com/fDWUQI8.png]
-```
+![Página de Éxito](https://i.imgur.com/fDWUQI8.png)
 
 ### 🗄️ 3. Visualización de Datos en MongoDB Express
 
@@ -316,9 +312,7 @@ Tu proyecto no solo cumple con todos los requisitos solicitados, sino que va má
 - **Interfaz web intuitiva** para explorar y gestionar los datos
 - **Navegación por colecciones** y filtros de búsqueda disponibles
 
-```
-[https://i.imgur.com/ULvHPM2.png]
-```
+![Base de Datos MongoDB Express](https://i.imgur.com/ULvHPM2.png)
 
 ### 🎯 Lo que demuestran estas imágenes:
 
