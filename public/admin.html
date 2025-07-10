@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración - Base de Datos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>🔧 Administración de Base de Datos</h1>
+            <p class="subtitle">Herramientas para gestionar los datos del sistema</p>
+
+            <!-- Panel de información -->
+            <div class="admin-panel">
+                <div class="info-section">
+                    <h3>📊 Estado de la Base de Datos</h3>
+                    <div id="estadoBD" class="status-info">
+                        <p>Cargando información...</p>
+                    </div>
+                    <button onclick="verificarEstado()" class="btn-secondary">🔄 Actualizar Estado</button>
+                </div>
+
+                <div class="actions-section">
+                    <h3>⚡ Acciones Rápidas</h3>
+                    
+                    <div class="action-group">
+                        <button onclick="inicializarDatos()" class="btn-primary">
+                            🚀 Crear Datos de Prueba
+                        </button>
+                        <p class="action-description">Crea 3 usuarios de ejemplo para probar el sistema</p>
+                    </div>
+
+                    <div class="action-group">
+                        <button onclick="limpiarDatos()" class="btn-danger">
+                            🗑️ Limpiar Base de Datos
+                        </button>
+                        <p class="action-description">⚠️ Elimina todos los usuarios (solo desarrollo)</p>
+                    </div>
+
+                    <div class="action-group">
+                        <a href="/" class="btn-secondary">
+                            📝 Volver al Formulario
+                        </a>
+                        <a href="http://localhost:8081" target="_blank" class="btn-secondary">
+                            🌐 Abrir Mongo Express
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Lista de usuarios -->
+                <div class="users-section">
+                    <h3>👥 Usuarios Registrados</h3>
+                    <div id="listaUsuarios" class="users-list">
+                        <p>Cargando usuarios...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensajes -->
+            <div id="mensajeAdmin" class="resultado-container" style="display: none;">
+                <div id="mensajeTextoAdmin"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .admin-panel {
+            margin-top: 2rem;
+        }
+
+        .info-section, .actions-section, .users-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #007bff;
+        }
+
+        .status-info {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border: 1px solid #e1e5e9;
+        }
+
+        .action-group {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .action-group:last-child {
+            border-bottom: none;
+        }
+
+        .action-description {
+            color: #666;
+            font-size: 14px;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .users-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .user-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #007bff;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .user-meta {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+
+    <script>
+        // Función para mostrar mensajes
+        function mostrarMensaje(mensaje, tipo) {
+            const contenedor = document.getElementById('mensajeAdmin');
+            const textoElemento = document.getElementById('mensajeTextoAdmin');
+            
+            textoElemento.textContent = mensaje;
+            contenedor.className = `resultado-container ${tipo} fade-in`;
+            contenedor.style.display = 'block';
+
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+                contenedor.style.display = 'none';
+            }, 5000);
+        }
+
+        // Verificar estado de la base de datos
+        async function verificarEstado() {
+            try {
+                const response = await fetch('/api/usuarios');
+                const data = await response.json();
+                
+                const estadoDiv = document.getElementById('estadoBD');
+                
+                if (data.success) {
+                    estadoDiv.innerHTML = `
+                        <p><strong>✅ Conexión:</strong> Exitosa</p>
+                        <p><strong>📊 Total de usuarios:</strong> ${data.usuarios.length}</p>
+                        <p><strong>🔗 MongoDB URI:</strong> mongodb://mongodb:27017/formulario_validacion</p>
+                        <p><strong>🕒 Última verificación:</strong> ${new Date().toLocaleString()}</p>
+                    `;
+                } else {
+                    estadoDiv.innerHTML = `
+                        <p><strong>❌ Error:</strong> No se pudo conectar a la base de datos</p>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('estadoBD').innerHTML = `
+                    <p><strong>❌ Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        // Cargar lista de usuarios
+        async function cargarUsuarios() {
+            try {
+                const response = await fetch('/api/usuarios');
+                const data = await response.json();
+                
+                const listaDiv = document.getElementById('listaUsuarios');
+                
+                if (data.success && data.usuarios.length > 0) {
+                    listaDiv.innerHTML = data.usuarios.map(usuario => `
+                        <div class="user-item">
+                            <div class="user-name">${usuario.nombreUsuario}</div>
+                            <div class="user-email">${usuario.email}</div>
+                            <div class="user-meta">
+                                Categoría: ${usuario.categoria} | 
+                                Edad: ${usuario.edad} | 
+                                Registrado: ${new Date(usuario.createdAt).toLocaleDateString()}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    listaDiv.innerHTML = '<p>No hay usuarios registrados</p>';
+                }
+            } catch (error) {
+                document.getElementById('listaUsuarios').innerHTML = 
+                    `<p>Error cargando usuarios: ${error.message}</p>`;
+            }
+        }
+
+        // Inicializar datos de prueba
+        async function inicializarDatos() {
+            if (!confirm('¿Crear usuarios de prueba en la base de datos?')) return;
+            
+            try {
+                const response = await fetch('/api/usuarios/inicializar-datos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    mostrarMensaje(data.mensaje, 'success');
+                    verificarEstado();
+                    cargarUsuarios();
+                } else {
+                    mostrarMensaje(data.mensaje, 'error');
+                }
+            } catch (error) {
+                mostrarMensaje('Error creando datos: ' + error.message, 'error');
+            }
+        }
+
+        // Limpiar base de datos
+        async function limpiarDatos() {
+            if (!confirm('⚠️ ¿ELIMINAR TODOS los usuarios? Esta acción no se puede deshacer.')) return;
+            
+            try {
+                const response = await fetch('/api/usuarios/limpiar-datos', {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    mostrarMensaje(data.mensaje, 'success');
+                    verificarEstado();
+                    cargarUsuarios();
+                } else {
+                    mostrarMensaje(data.mensaje, 'error');
+                }
+            } catch (error) {
+                mostrarMensaje('Error limpiando datos: ' + error.message, 'error');
+            }
+        }
+
+        // Cargar datos al inicio
+        document.addEventListener('DOMContentLoaded', () => {
+            verificarEstado();
+            cargarUsuarios();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario - Validación Completa</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Registro de Usuario</h1>
+            <p class="subtitle">Complete todos los campos para registrarse</p>
+            
+            <!-- Enlaces de navegación -->
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <a href="/admin" style="color: #007bff; text-decoration: none; font-size: 14px;">
+                    🔧 Panel de Administración
+                </a>
+                <span style="margin: 0 10px; color: #ccc;">|</span>
+                <a href="http://localhost:8081" target="_blank" style="color: #007bff; text-decoration: none; font-size: 14px;">
+                    🌐 Mongo Express
+                </a>
+            </div>
+            
+            <form id="formularioRegistro" novalidate>
+                <!-- Nombre de Usuario -->
+                <div class="form-group">
+                    <label for="nombreUsuario">Nombre de Usuario *</label>
+                    <input 
+                        type="text" 
+                        id="nombreUsuario" 
+                        name="nombreUsuario" 
+                        required 
+                        minlength="3" 
+                        maxlength="20"
+                        pattern="^[a-zA-Z0-9_]+$"
+                        autocomplete="username"
+                    >
+                    <div class="error-message" id="error-nombreUsuario"></div>
+                    <div class="success-message" id="success-nombreUsuario"></div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Correo Electrónico *</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        autocomplete="email"
+                    >
+                    <div class="error-message" id="error-email"></div>
+                    <div class="success-message" id="success-email"></div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="contraseña">Contraseña *</label>
+                    <input 
+                        type="password" 
+                        id="contraseña" 
+                        name="contraseña" 
+                        required 
+                        minlength="8"
+                        autocomplete="new-password"
+                    >
+                    <div class="password-requirements">
+                        <small>
+                            La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula y un número.
+                        </small>
+                    </div>
+                    <div class="error-message" id="error-contraseña"></div>
+                </div>
+
+                <!-- Confirmar Contraseña -->
+                <div class="form-group">
+                    <label for="confirmarContraseña">Confirmar Contraseña *</label>
+                    <input 
+                        type="password" 
+                        id="confirmarContraseña" 
+                        name="confirmarContraseña" 
+                        required
+                        autocomplete="new-password"
+                    >
+                    <div class="error-message" id="error-confirmarContraseña"></div>
+                </div>
+
+                <!-- Edad -->
+                <div class="form-group">
+                    <label for="edad">Edad *</label>
+                    <input 
+                        type="number" 
+                        id="edad" 
+                        name="edad" 
+                        required 
+                        min="18" 
+                        max="99"
+                    >
+                    <div class="error-message" id="error-edad"></div>
+                </div>
+
+                <!-- Biografía -->
+                <div class="form-group">
+                    <label for="biografia">Biografía</label>
+                    <textarea 
+                        id="biografia" 
+                        name="biografia" 
+                        maxlength="500" 
+                        rows="4"
+                        placeholder="Cuéntanos un poco sobre ti..."
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="biografiaCounter">0</span>/500 caracteres
+                    </div>
+                    <div class="error-message" id="error-biografia"></div>
+                </div>
+
+                <!-- Categoría -->
+                <div class="form-group">
+                    <label for="categoria">Categoría *</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="estudiante">Estudiante</option>
+                        <option value="profesional">Profesional</option>
+                        <option value="empresario">Empresario</option>
+                        <option value="freelancer">Freelancer</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <div class="error-message" id="error-categoria"></div>
+                </div>
+
+                <!-- Calificación -->
+                <div class="form-group">
+                    <label for="calificacion">Calificación (1-10)</label>
+                    <input 
+                        type="range" 
+                        id="calificacion" 
+                        name="calificacion" 
+                        min="1" 
+                        max="10" 
+                        value="5"
+                        class="range-input"
+                    >
+                    <div class="range-value">
+                        Valor: <span id="calificacionValue">5</span>
+                    </div>
+                    <div class="error-message" id="error-calificacion"></div>
+                </div>
+
+                <!-- Botones -->
+                <div class="form-actions">
+                    <button type="submit" id="btnSubmit">
+                        <span class="btn-text">Registrarse</span>
+                        <span class="btn-loading" style="display: none;">Registrando...</span>
+                    </button>
+                    <button type="reset" id="btnReset">Limpiar Formulario</button>
+                </div>
+            </form>
+
+            <!-- Mensaje de resultado -->
+            <div id="mensajeResultado" class="resultado-container" style="display: none;">
+                <div id="mensajeTexto"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/validacion.js"></script>
+</body>
+</html>

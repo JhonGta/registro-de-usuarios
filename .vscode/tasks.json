@@ -1,0 +1,179 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "🐳 Docker: Iniciar Proyecto",
+			"type": "shell",
+			"command": "docker-compose",
+			"args": [
+				"up",
+				"--build"
+			],
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🐳 Docker: Parar Proyecto",
+			"type": "shell",
+			"command": "docker-compose",
+			"args": [
+				"down"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🐳 Docker: Reiniciar Proyecto",
+			"type": "shell",
+			"command": "docker-compose",
+			"args": [
+				"restart"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🐳 Docker: Ver Logs",
+			"type": "shell",
+			"command": "docker-compose",
+			"args": [
+				"logs",
+				"-f"
+			],
+			"group": "test",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🐳 Docker: Limpiar Todo",
+			"type": "shell",
+			"command": "docker-compose",
+			"args": [
+				"down",
+				"-v"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "📦 NPM: Instalar Dependencias",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"install"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🚀 NPM: Modo Desarrollo",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "🌐 Abrir en Navegador",
+			"type": "shell",
+			"command": "start",
+			"args": [
+				"http://localhost:3000"
+			],
+			"group": "test",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared"
+			},
+			"windows": {
+				"command": "start",
+				"args": [
+					"http://localhost:3000"
+				]
+			},
+			"linux": {
+				"command": "xdg-open",
+				"args": [
+					"http://localhost:3000"
+				]
+			},
+			"osx": {
+				"command": "open",
+				"args": [
+					"http://localhost:3000"
+				]
+			}
+		}
+	]
+}
